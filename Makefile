@@ -1,107 +1,101 @@
-# =============================================
-# 1. Base config
-# =============================================
-NAME_MANDATORY = client server
-NAME_BONUS     = client_bonus server_bonus
-CC             = cc
-CFLAGS         = -Wall -Wextra -Werror
-LIBFT_DIR      = libft
-LIBFT_LIB      = $(LIBFT_DIR)/libft.a
-FT_PRINTF_LIB  = $(LIBFT_DIR)/ft_printf/libftprintf.a
-INCLUDES       = -Iincludes -I$(LIBFT_DIR) -I$(LIBFT_DIR)/ft_printf
+# =============================================================================
+# Makefile pour Pipex (42) - Avec libft et ft_printf
+# =============================================================================
 
-# =============================================
-# 2. Sources - MANDATORY
-# =============================================
-SRC_MANDATORY = srcs/mandatory/client.c \
-				srcs/mandatory/server.c
+# --- Couleurs (optionnel mais utile) ---
+BLUE	= \033[1;34m
+GREEN	= \033[1;32m
+YELLOW	= \033[1;33m
+RED		= \033[1;31m
+RESET	= \033[0m
+
+# --- Config de base ---
+NAME_MANDATORY	= pipex
+NAME_BONUS		= pipex_bonus
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror
+LIBFT_DIR		= libft
+LIBFT_LIB		= $(LIBFT_DIR)/libft.a
+FT_PRINTF_LIB	= $(LIBFT_DIR)/ft_printf/libftprintf.a
+INCLUDES		= -Iincludes -I$(LIBFT_DIR) -I$(LIBFT_DIR)/ft_printf
+
+# --- Sources (à adapter selon ton organisation) ---
+SRC_MANDATORY	= src/main.c \
+				  src/utils/ft_utils.c \
+				  src/utils/error.c \
+				  src/parsing/parse.c \
+				  src/execution/exec.c \
+				  src/execution/paths.c
 OBJECTS_MANDATORY = $(SRC_MANDATORY:.c=.o)
 
-# =============================================
-# 3. Sources - BONUS
-# =============================================
-SRC_BONUS = srcs/bonus/client_bonus.c \
-			srcs/bonus/server_bonus.c
-OBJECTS_BONUS = $(SRC_BONUS:.c=.o)
+SRC_BONUS		= src/bonus/here_doc.c
+OBJECTS_BONUS	= $(SRC_BONUS:.c=.o)
 
-# =============================================
-# 4. Main rules
-# =============================================
+# =============================================================================
+# Règles principales
+# =============================================================================
 all: mandatory
 
 mandatory: $(NAME_MANDATORY)
 
 bonus: $(NAME_BONUS)
 
+# --- Compilation des libs (libft et ft_printf) ---
 $(LIBFT_LIB):
 	@echo "$(BLUE)🛠️ Compiling libft...$(RESET)"
-	$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR) > /dev/null
 
 $(FT_PRINTF_LIB):
 	@echo "$(BLUE)🖨️ Compiling ft_printf...$(RESET)"
-	$(MAKE) -C $(LIBFT_DIR)/ft_printf
+	$(MAKE) -C $(LIBFT_DIR)/ft_printf > /dev/null
 
-# --- Mandatory compilation ---
-client: srcs/mandatory/client.o $(LIBFT_LIB) $(FT_PRINTF_LIB)
-	@echo "$(PURPLE)📝 Compiling client...$(RESET)"
-	$(CC) $(CFLAGS) $(INCLUDES) -o client srcs/mandatory/client.o -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf
-	@echo "$(GREEN)✅ client compiled successfully!$(RESET)"
+# --- Compilation de la partie obligatoire ---
+$(NAME_MANDATORY): $(OBJECTS_MANDATORY) $(LIBFT_LIB) $(FT_PRINTF_LIB)
+	@echo "$(PURPLE)🔧 Compiling $(NAME_MANDATORY)...$(RESET)"
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^ -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf
+	@echo "$(GREEN)✅ $(NAME_MANDATORY) compiled successfully!$(RESET)"
 
-server: srcs/mandatory/server.o $(LIBFT_LIB) $(FT_PRINTF_LIB)
-	@echo "$(PURPLE)📝 Compiling server...$(RESET)"
-	$(CC) $(CFLAGS) $(INCLUDES) -o server srcs/mandatory/server.o -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf
-	@echo "$(GREEN)✅ server compiled successfully!$(RESET)"
+# --- Compilation de la partie bonus ---
+$(NAME_BONUS): $(OBJECTS_MANDATORY) $(OBJECTS_BONUS) $(LIBFT_LIB) $(FT_PRINTF_LIB)
+	@echo "$(PURPLE)🔧 Compiling $(NAME_BONUS) (with bonus)...$(RESET)"
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJECTS_MANDATORY) $(OBJECTS_BONUS) -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf -D BONUS
+	@echo "$(GREEN)✅ $(NAME_BONUS) compiled successfully!$(RESET)"
 
-# --- Bonus compilation ---
-client_bonus: srcs/bonus/client_bonus.o $(LIBFT_LIB) $(FT_PRINTF_LIB)
-	@echo "$(PURPLE)📝 Compiling client_bonus...$(RESET)"
-	$(CC) $(CFLAGS) $(INCLUDES) -o client_bonus srcs/bonus/client_bonus.o -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf
-	@echo "$(GREEN)✅ client_bonus compiled successfully!$(RESET)"
-
-server_bonus: srcs/bonus/server_bonus.o $(LIBFT_LIB) $(FT_PRINTF_LIB)
-	@echo "$(PURPLE)📝 Compiling server_bonus...$(RESET)"
-	$(CC) $(CFLAGS) $(INCLUDES) -o server_bonus srcs/bonus/server_bonus.o -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf
-	@echo "$(GREEN)✅ server_bonus compiled successfully!$(RESET)"
-
-# --- Compilation des .o ---
-srcs/mandatory/%.o: srcs/mandatory/%.c $(LIBFT_LIB) $(FT_PRINTF_LIB)
+# --- Compilation des fichiers .o ---
+src/%.o: src/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-srcs/bonus/%.o: srcs/bonus/%.c $(LIBFT_LIB) $(FT_PRINTF_LIB)
+src/bonus/%.o: src/bonus/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# =============================================
-# 5. Cleaning
-# =============================================
+# =============================================================================
+# Nettoyage
+# =============================================================================
 clean:
 	@echo "$(YELLOW)🧹 Cleaning object files...$(RESET)"
 	rm -f $(OBJECTS_MANDATORY) $(OBJECTS_BONUS)
 	$(MAKE) -C $(LIBFT_DIR) clean > /dev/null 2>&1
 	$(MAKE) -C $(LIBFT_DIR)/ft_printf clean > /dev/null 2>&1
-	@echo "$(GREEN)✅ Clean completed!$(RESET)"
 
 fclean: clean
 	@echo "$(RED)🧹 Deep cleaning (executables + objects)...$(RESET)"
 	rm -f $(NAME_MANDATORY) $(NAME_BONUS)
-	$(MAKE) -C $(LIBFT_DIR) fclean > /dev/null 2>&1
-	$(MAKE) -C $(LIBFT_DIR)/ft_printf fclean > /dev/null 2>&1
 
 re: fclean all
-	@echo "$(GREEN)✅ Full recompilation done!$(RESET)"
 
-# =============================================
-# 6. Help
-# =============================================
+# =============================================================================
+# Aide
+# =============================================================================
 help:
-	@echo "$(BLUE)📜 Available targets:$(RESET)"
-	@echo "  $(GREEN)all$(RESET)          : Compile mandatory only"
-	@echo "  $(YELLOW)bonus$(RESET)       : Compile only bonus part"
-	@echo "  $(RED)clean$(RESET)        : Remove object files"
-	@echo "  $(RED)fclean$(RESET)       : Remove all generated files"
-	@echo "  $(GREEN)re$(RESET)          : Full recompilation"
-	@echo "  $(PURPLE)help$(RESET)        : Show this help"
+	@echo "$(BLUE)📜 Makefile Help for Pipex:$(RESET)"
+	@echo "  $(GREEN)make$(RESET)          : Compile mandatory part"
+	@echo "  $(GREEN)make bonus$(RESET)    : Compile with bonus (here_doc)"
+	@echo "  $(YELLOW)make clean$(RESET)   : Remove object files"
+	@echo "  $(RED)make fclean$(RESET)    : Remove all generated files"
+	@echo "  $(PURPLE)make re$(RESET)      : Full recompilation"
+	@echo "  $(BLUE)make help$(RESET)      : Show this help"
 
-# =============================================
-# 7. Special rules
-# =============================================
-.PHONY: all mandatory bonus clean fclean re help client server client_bonus server_bonus
+# =============================================================================
+# Règles PHONY
+# =============================================================================
+.PHONY: all mandatory bonus clean fclean re help
