@@ -1,0 +1,32 @@
+{
+    "editor.inlineSuggest.enabled": false,
+    "editor.suggest.showInlineDetails": false,
+    "editor.suggest.showIcons": false,
+    "editor.suggest.showStatusBar": false,
+    "editor.suggest.showSnippets": false,
+    "editor.suggest.showWords": false,
+    "editor.suggest.showColors": false,
+    "editor.suggest.showCustomcolors": false,
+    "editor.suggest.showUnits": false,
+    "editor.suggest.showVariables": false,
+    "editor.suggest.showReferences": false,
+    "editor.suggest.showCustomtags": false,
+    "editor.suggestSelection": "never",
+    "editor.snippetSuggestions": "none",
+    "editor.parameterHints.enabled": false,
+    "editor.hover.enabled": false,
+    "editor.acceptSuggestionOnTab": false,
+    "editor.tabCompletion": "off",
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    },
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.suggestOnTriggerCharacters": false,
+    "cursor.enableAICompletions": false,
+    "cursor.enableInlineCompletions": false,
+    "cursor.enableTabCompletions": false,
+    "cursor.enableCopilot": false,
+    "cursor.enableAutoCompletions": false
+}

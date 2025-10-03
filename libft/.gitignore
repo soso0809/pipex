@@ -1,0 +1,17 @@
+*.o
+*.so
+*.a
+*.pdf
+*.out
+*.md
+
+# Build artifacts
+obj/
+assets/
+result.log
+
+# Test framework
+hardcore-mode/
+include/
+src/
+run_test
