@@ -10,3 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
+
+char *get_cmd_path(char *cmd, char **envp)
+{
+	int		i;
+	char	*paths_str;
+	char	**paths;
+
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			{
+				paths_str = envp[i] + 5;
+				paths = ft_split(paths_str, ':');
+				
+			}
+		i++;
+	}
+}

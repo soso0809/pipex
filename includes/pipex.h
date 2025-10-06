@@ -46,7 +46,7 @@
 ***	- Delimiter for here_doc (e.g.: "EOF")
 */
 /* ************************************************************************** */
-	typedef struct s_data
+	typedef struct s_pipex
 {
 	int		fd_in;
 	int		fd_out;
@@ -56,7 +56,7 @@
 	char	*cmd2_path;
 	int		here_doc;
 	char	*limiter;
-}			t_data;
+}			t_pipex;
 
 /* ************************************************************************** */
 /* MANDATORY FUNCTION DECLARATIONS */
@@ -69,7 +69,7 @@ void		child_process(t_data *data, char **envp, int *pipe_fd, int is_cmd1);
 void		parent_process(t_data *data, int *pipe_fd);
 
 /* parsing/parse.c */
-t_data		*init_data(void);
+t_data		*init_pipex(void);
 void		parse_input(t_data *data, int argc, char **argv);
 char		**split_cmd(char *cmd);
 char		*get_cmd_path(char *cmd, char **envp);
