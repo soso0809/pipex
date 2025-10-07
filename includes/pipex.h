@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/10/07 13:56:36 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/07 16:49:16 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@
 
 /* execution/exec.c */
 void		execute_commands(t_pipex *data, char **envp);
-void		setup_pipe(t_pipex *data);
 void		child_process(t_pipex *data, char **envp, int *pipe_fd, int is_cmd1);
-void		parent_process(t_pipex *data, int *pipe_fd);
 
 /* paths.c */
 char		*get_cmd_path(char *cmd, char **envp);
@@ -82,8 +80,7 @@ void		free_str_array(char **arr);
 void		open_files(t_pipex *data, char **argv);
 void		parse_commands(t_pipex *data, char **argv, char **envp);
 
-/* paths.c */
-char		*get_cmd_path(char *cmd, char **envp);
+
 
 /* utils/errors.c */
 void		exit_error(char *msg);

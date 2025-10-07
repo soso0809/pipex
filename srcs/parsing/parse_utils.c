@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:46:12 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/07 13:56:32 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/07 16:35:51 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* ************************************************************************** */
 /* ************************************************************************** */
 /*
-* Purpose:  helper functions for parsing
+* Purpose: helper functions for parsing
 * Function implemented: 
 ***	- free_str_array: helper for freeing string arrays
 ***	- open_files: handle opening files
@@ -23,7 +23,7 @@
 */
 /* ************************************************************************** */
 /*
-* Purpose:  free a NULL-terminated array of strings.
+* Purpose: free a NULL-terminated array of strings.
 * Function implemented: free_str_array
 ***	- Iterate through the array and free each string.
 ***	- Free the array itself.
@@ -45,7 +45,7 @@ void	free_str_array(char **arr)
 
 /* ************************************************************************** */
 /*
-* Purpose:  open input and output files for pipex.
+* Purpose: open input and output files for pipex.
 * Function implemented: open_files
 ***	- Open input file for reading.
 ***	- On failure, free resources and exit with error.
@@ -71,7 +71,7 @@ void	open_files(t_pipex *pipex, char **argv)
 
 /* ************************************************************************** */
 /*
-* Purpose:  parse and validate commands from argv.
+* Purpose: parse and validate commands from argv.
 * Function implemented: parse_commands
 ***	- Split argv[2] and argv[3] into argument arrays.
 ***	- Validate that commands exist and are non-empty.

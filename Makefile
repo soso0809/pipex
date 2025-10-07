@@ -24,6 +24,7 @@ SRC_MANDATORY	= srcs/main.c \
 				  srcs/utils/ft_utils.c \
 				  srcs/utils/errors.c \
 				  srcs/parsing/parse.c \
+				  srcs/parsing/parse_utils.c \
 				  srcs/execution/exec.c \
 				  srcs/execution/paths.c \
 				  srcs/execution/paths_utils.c

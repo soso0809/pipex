@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:56:50 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/07 13:58:20 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/07 16:56:32 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 /* ************************************************************************** */
 /*
-* Purpose:  allocate and initialize a t_pipex structure.
+* Purpose: allocate and initialize a t_pipex structure.
 * Function implemented: init_pipex
 ***	- Allocate memory for t_pipex.
 ***	- Initialize all members to default values.
