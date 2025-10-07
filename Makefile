@@ -20,15 +20,18 @@ FT_PRINTF_LIB	= $(LIBFT_DIR)/ft_printf/libftprintf.a
 INCLUDES		= -Iincludes -I$(LIBFT_DIR) -I$(LIBFT_DIR)/ft_printf
 
 # --- Sources (à adapter selon ton organisation) ---
-SRC_MANDATORY	= src/main.c \
-				  src/utils/ft_utils.c \
-				  src/utils/error.c \
-				  src/parsing/parse.c \
-				  src/execution/exec.c \
-				  src/execution/paths.c
+SRC_MANDATORY	= srcs/main.c \
+				  srcs/utils/ft_utils.c \
+				  srcs/utils/errors.c \
+				  srcs/parsing/parse.c \
+				  srcs/execution/exec.c \
+				  srcs/execution/paths.c \
+				  srcs/execution/paths_utils.c
+
 OBJECTS_MANDATORY = $(SRC_MANDATORY:.c=.o)
 
 SRC_BONUS		= src/bonus/here_doc.c
+SRC_BONUS		= srcs/bonus/here_doc.c
 OBJECTS_BONUS	= $(SRC_BONUS:.c=.o)
 
 # =============================================================================
@@ -62,10 +65,10 @@ $(NAME_BONUS): $(OBJECTS_MANDATORY) $(OBJECTS_BONUS) $(LIBFT_LIB) $(FT_PRINTF_LI
 	@echo "$(GREEN)✅ $(NAME_BONUS) compiled successfully!$(RESET)"
 
 # --- Compilation des fichiers .o ---
-src/%.o: src/%.c
+srcs/%.o: srcs/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-src/bonus/%.o: src/bonus/%.c
+srcs/bonus/%.o: srcs/bonus/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # =============================================================================

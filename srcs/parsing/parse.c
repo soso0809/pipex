@@ -6,11 +6,22 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:56:50 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/03 13:56:51 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/07 13:58:20 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+
+/* ************************************************************************** */
+/*
+* Purpose: main functions for parsing
+* Function implemented: 
+***	- *init_pipex:allocate and initialize a t_pipex structure.
+***	- free_pipex: free all resources allocated in t_pipex structure.
+***	- parse_input: parse input arguments and initialize pipex structure.
+*/
+/* ************************************************************************** */
 
 /* ************************************************************************** */
 /*
@@ -40,19 +51,56 @@ t_pipex	*init_pipex(void)
 	return (pipex);
 }
 
+/* ************************************************************************** */
+/*
+* Purpose: free all resources allocated in t_pipex structure.
+* Function implemented: free_pipex
+***	- Close file descriptors if open.
+***	- Free command paths.
+***	- Free command argument arrays.
+***	- Free the t_pipex structure itself.
+***	- Do nothing if pipex is NULL.
+*/
+/* ************************************************************************** */
+void	free_pipex(t_pipex *pipex)
+{
+	if (!pipex)
+		return ;
+	if (pipex->fd_in > -1)
+		close(pipex->fd_in);
+	if (pipex->fd_out > -1)
+		close(pipex->fd_out);
+	if (pipex->cmd1_path)
+		free(pipex->cmd1_path);
+	if (pipex->cmd2_path)
+		free(pipex->cmd2_path);
+	free_str_array(pipex->cmd1);
+	free_str_array(pipex->cmd2);
+	free(pipex);
+}
+
+/* ************************************************************************** */
+/*
+* Purpose: parse input arguments and initialize pipex structure.
+* Function implemented: parse_input
+***	- Check argument count, exit with usage error if invalid.
+***	- Check environment pointer, exit with error if NULL.
+***	- Open input and output files.
+***	- Parse and validate commands.
+*/
+/* ************************************************************************** */
 void	parse_input(t_pipex *pipex, int argc, char **argv, char **envp)
 {
 	if (argc != 5)
+	{
+		free_pipex(pipex);
 		ft_error("Usage: ./pipex infile cmd1 cmd2 outfile");
-	pipex->fd_in = open(argv[1], O_RDONLY);
-	if (pipex->fd_in < 0)
-		ft_error("Error opening infile.");
-	pipex->fd_out = open(argv[4], O_WRONLY);
-	if (pipex->fd_out < 0)
-		ft_error("Error opening outfile.");
-	pipex->cmd1 = ft_split(argv[2]);
-	pipex->cm2 = ft_split(argv[3]);
-	if (!pipex->cmd1 || !pipex->cmd2)
-		ft_error("Error splitting commands.");
-	
+	}
+	if (!envp)
+	{
+		free_pipex(pipex);
+		ft_error("Error: empty environment");
+	}
+	open_files(pipex, argv);
+	parse_commands(pipex, argv, envp);
 }
