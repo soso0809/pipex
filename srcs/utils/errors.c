@@ -6,7 +6,15 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:55:59 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/03 13:56:01 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/10 17:54:45 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include <stdlib.h>
+
+void	exit_error(char *msg)
+{
+	ft_putendl_fd(msg, 2);
+	exit (1);
+}

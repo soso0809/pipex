@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/10/03 18:22:41 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/10 13:37:49 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 /* ************************************************************************** */
 
 /* bonus/here_doc.c */
-void	handle_here_doc(t_data *data);
+void	handle_here_doc(t_pipex *data);
 int		is_here_doc_mode(char **argv);
-void	clean_here_doc(t_data *data);
+void	clean_here_doc(t_pipex *data);
 char	*get_here_doc_input(char *limiter);
 
 /* bonus/multiple_pipes.c (si tu fais la partie multi-pipes) */
-void	execute_multiple_pipes(t_data *data, char **envp, int cmd_count);
+void	execute_multiple_pipes(t_pipex *data, char **envp, int cmd_count);
 
 #endif
