@@ -62,14 +62,18 @@ SRC_PRINTF	= ft_printf/ft_printf.c \
 		ft_printf/handle_conversion.c \
 		ft_printf/handle_conversion_bis.c
 
+SRC_GNL		= get_next_line/get_next_line.c \
+		get_next_line/get_next_line_utils.c
+
 OBJECTS			= $(SRC:.c=.o)
 OBJECTS_BONUS	= $(SRC_BONUS:.c=.o)
 OBJECTS_PRINTF	= $(SRC_PRINTF:.c=.o)
+OBJECTS_GNL		= $(SRC_GNL:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS) $(OBJECTS_PRINTF)
-	   ar rcs $(NAME) $(OBJECTS) $(OBJECTS_PRINTF)
+$(NAME): $(OBJECTS) $(OBJECTS_PRINTF) $(OBJECTS_GNL)
+	   ar rcs $(NAME) $(OBJECTS) $(OBJECTS_PRINTF) $(OBJECTS_GNL)
 
 mandatory: $(OBJECTS)
 	ar rcs $(NAME) $(OBJECTS)
@@ -84,14 +88,16 @@ full: $(OBJECTS) $(OBJECTS_BONUS) $(OBJECTS_PRINTF)
 	ar rcs $(NAME) $(OBJECTS) $(OBJECTS_BONUS) $(OBJECTS_PRINTF)
 
 
-# règle pour compiler les .o dans ft_printf/
+# règle pour compiler les .o dans ft_printf/ et get_next_line/
 %.o: %.c
 	   $(CC) $(CFLAGS) -I. -c $< -o $@
 ft_printf/%.o: ft_printf/%.c
 	   $(CC) $(CFLAGS) -I. -c $< -o $@
+get_next_line/%.o: get_next_line/%.c
+	   $(CC) $(CFLAGS) -I. -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS) $(OBJECTS_BONUS) $(OBJECTS_PRINTF)
+	rm -f $(OBJECTS) $(OBJECTS_BONUS) $(OBJECTS_PRINTF) $(OBJECTS_GNL)
 	rm -f libft.so
 
 fclean: clean
