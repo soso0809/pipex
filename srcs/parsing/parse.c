@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:56:50 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/07 16:56:32 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/10 06:33:45 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	parse_input(t_pipex *pipex, int argc, char **argv, char **envp)
 	if (!envp)
 	{
 		free_pipex(pipex);
-		ft_error("Error: empty environment");
+		ft_error("Error: empty environment.");
 	}
 	open_files(pipex, argv);
 	parse_commands(pipex, argv, envp);
