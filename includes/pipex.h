@@ -80,8 +80,6 @@ void		free_str_array(char **arr);
 void		open_files(t_pipex *data, char **argv);
 void		parse_commands(t_pipex *data, char **argv, char **envp);
 
-
-
 /* utils/errors.c */
 void		exit_error(char *msg);
 void		exit_error_cmd(char *cmd, char *msg);

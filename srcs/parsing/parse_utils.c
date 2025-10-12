@@ -13,14 +13,15 @@
 #include "pipex.h"
 
 /* ************************************************************************** */
-/* ************************************************************************** */
 /*
 * Purpose: helper functions for parsing
-* Function implemented: 
+* Function implemented:
 ***	- free_str_array: helper for freeing string arrays
 ***	- open_files: handle opening files
 ***	- parse_commands: handle parsing and validating commands
 */
+/* ************************************************************************** */
+
 /* ************************************************************************** */
 /*
 * Purpose: free a NULL-terminated array of strings.

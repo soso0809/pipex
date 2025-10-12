@@ -31,8 +31,18 @@ SRC_MANDATORY	= srcs/main.c \
 
 OBJECTS_MANDATORY = $(SRC_MANDATORY:.c=.o)
 
-SRC_BONUS		= src/bonus/here_doc.c
-SRC_BONUS		= srcs/bonus/here_doc.c
+SRC_BONUS		= srcs/bonus/main_bonus.c \
+				  srcs/bonus/here_doc.c \
+				  srcs/bonus/parse_bonus.c \
+				  srcs/bonus/parse_utils_bonus.c \
+				  srcs/utils/ft_utils.c \
+				  srcs/utils/errors.c \
+				  srcs/parsing/parse.c \
+				  srcs/parsing/parse_utils.c \
+				  srcs/execution/exec.c \
+				  srcs/execution/paths.c \
+				  srcs/execution/paths_utils.c
+
 OBJECTS_BONUS	= $(SRC_BONUS:.c=.o)
 
 # =============================================================================
@@ -60,9 +70,9 @@ $(NAME_MANDATORY): $(OBJECTS_MANDATORY) $(LIBFT_LIB) $(FT_PRINTF_LIB)
 	@echo "$(GREEN)✅ $(NAME_MANDATORY) compiled successfully!$(RESET)"
 
 # --- Compilation de la partie bonus ---
-$(NAME_BONUS): $(OBJECTS_MANDATORY) $(OBJECTS_BONUS) $(LIBFT_LIB) $(FT_PRINTF_LIB)
+$(NAME_BONUS): $(OBJECTS_BONUS) $(LIBFT_LIB) $(FT_PRINTF_LIB)
 	@echo "$(PURPLE)🔧 Compiling $(NAME_BONUS) (with bonus)...$(RESET)"
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJECTS_MANDATORY) $(OBJECTS_BONUS) -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf -D BONUS
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJECTS_BONUS) -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf
 	@echo "$(GREEN)✅ $(NAME_BONUS) compiled successfully!$(RESET)"
 
 # --- Compilation des fichiers .o ---

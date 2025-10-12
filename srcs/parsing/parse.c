@@ -16,7 +16,7 @@
 /* ************************************************************************** */
 /*
 * Purpose: main functions for parsing
-* Function implemented: 
+* Function implemented:
 ***	- *init_pipex:allocate and initialize a t_pipex structure.
 ***	- free_pipex: free all resources allocated in t_pipex structure.
 ***	- parse_input: parse input arguments and initialize pipex structure.

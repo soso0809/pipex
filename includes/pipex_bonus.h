@@ -13,23 +13,24 @@
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
-# include "pipex.h" // Pour avoir accès à t_data et aux prototypes communs
+# include "pipex.h"
 
-/* --- Macros (Bonus) --- */
+/* Here_doc configuration */
 # define HERE_DOC_TEMP_FILE ".here_doc_tmp"
-# define HERE_DOC_PERMS 0644 // Permissions pour le fichier temporaire
+# define HERE_DOC_PERMS 0644
 
-/* ************************************************************************** */
-/* BONUS FUNCTION DECLARATIONS */
-/* ************************************************************************** */
+/* Bonus functions prototypes */
+/* Parsing */
+void	parse_input_bonus(t_pipex *pipex, int argc, char **argv, char **envp);
+void	parse_commands_bonus(t_pipex *pipex, char **argv, char **envp);
 
-/* bonus/here_doc.c */
-void	handle_here_doc(t_pipex *data);
+/* Here_doc */
 int		is_here_doc_mode(char **argv);
-void	clean_here_doc(t_pipex *data);
+int		handle_here_doc(t_pipex *data);
 char	*get_here_doc_input(char *limiter);
+void	clean_here_doc(t_pipex *data);
 
-/* bonus/multiple_pipes.c (si tu fais la partie multi-pipes) */
-void	execute_multiple_pipes(t_pipex *data, char **envp, int cmd_count);
+/* Multiple pipes */
+void	execute_commands(t_pipex *data, char **envp);
 
 #endif

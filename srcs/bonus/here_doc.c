@@ -12,36 +12,88 @@
 
 #include "pipex_bonus.h"
 
+/* ************************************************************************** */
+/*
+* Purpose: helper functions for parsing
+* Function implemented:
+***	- is_here_doc_mode: check if the program is running in here_doc mode.
+***	- handle_here_doc: handle the here_doc functionality by reading input until
+	limiter is found, writing it to a temporary file, and opening it for
+	reading.
+***	-*get_here_doc_input: read input from stdin until the limiter is
+	encountered.
+***	- clean_here_doc: remove the temporary file used for here-document
+	functionality.
+*/
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*
+* Purpose: check if the program is running in here_doc mode.
+* Function implemented: is_here_doc_mode
+***	- argv: command-line arguments array.
+* Return: 1 if "here_doc" mode is detected, 0 otherwise.
+*/
+/* ************************************************************************** */
 int	is_here_doc_mode(char **argv)
 {
 	if (!argv || !argv[1])
 		return (0);
-	if (ft_strncmp(argv[1], "here_doc", 9) != 0)
+	if (ft_strncmp(argv[1], "here_doc", 8) != 0)
 		return (0);
 	return (1);
 }
 
-void	handle_here_doc(t_pipex *data)
+/* ************************************************************************** */
+/*
+* Purpose: handle the here_doc functionality by reading input until limiter is
+	found, writing it to a temporary file, and opening it for reading.
+* Function implemented: handle_here_doc
+***	- data: pointer to t_pipex structure containing here_doc info.
+* Behavior:
+***	- Create a temporary file for here_doc input.
+***	- Read user input until limiter is encountered.
+***	- Write input to the temporary file.
+***	- Open the temporary file for reading and sets data->fd_in.
+***	- Handle errors by exiting with an error message.
+*/
+/* ************************************************************************** */
+int	handle_here_doc(t_pipex *data)
 {
 	int		tmp;
 	char	*content;
-	
+
 	if (!data)
-		return ;
-	tmp = open(HERE_DOC_TEMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, HERE_DOC_PERMS);
+		return (-1);
+	tmp = open(HERE_DOC_TEMP_FILE, O_WRONLY | O_CREAT
+		| O_TRUNC, HERE_DOC_PERMS);
 	if (tmp == -1)
-		exit_error("Could not create temporary file for here_doc.");
+		return (-1);
 	content = get_here_doc_input(data->limiter);
 	if (content == NULL)
-		exit_error("Could not access to here_doc.");
+		return (-1);
 	ft_putstr_fd(content, tmp);
 	free(content);
 	close(tmp);
 	data->fd_in = open(HERE_DOC_TEMP_FILE, O_RDONLY);
 	if (data->fd_in == -1)
-		exit_error("Could not open here_doc temporary file for reading");
+		return (-1);
+	return (0);
 }
 
+/* ************************************************************************** */
+/*
+* Purpose: read input from stdin until the limiter is encountered.
+* Function implemented: get_here_doc_input
+***	- limiter: string that marks the end of input.
+* Behavior:
+***	- Prompt user with "heredoc> ".
+***	- Read lines from stdin.
+***	- Stop reading when a line matches the limiter.
+***	- Concatenate all lines (except the limiter) into a single string.
+***	- Return the concatenated string.
+*/
+/* ************************************************************************** */
 char	*get_here_doc_input(char *limiter)
 {
 	char	*line;
@@ -51,6 +103,33 @@ char	*get_here_doc_input(char *limiter)
 	content = ft_strdup("");
 	if (!content)
 		return (NULL);
+	while (1)
+	{
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+		if (!line || !ft_strncmp(line, limiter, ft_strlen(limiter)))
+			break ;
+		tmp = ft_strjoin(content, line);
+		free(content);
+		content = tmp;
+		free(line);
+	}
+	if (line)
+		free(line);
+	return (content);
 }
 
-void	clean_here_doc(t_pipex *data);
+/* ************************************************************************** */
+/*
+* Purpose: remove the temporary file used for here-document functionality.
+* Function implemented: clean_here_doc
+***	- data: pointer to t_pipex structure containing here_doc info.
+* Behavior:
+***	- If data and data->here_doc are set, delete the temporary file.
+*/
+/* ************************************************************************** */
+void	clean_here_doc(t_pipex *data)
+{
+	if (data && data->here_doc)
+		unlink(HERE_DOC_TEMP_FILE);
+}
