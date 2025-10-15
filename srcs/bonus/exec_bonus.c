@@ -12,26 +12,7 @@
 
 #include "pipex_bonus.h"
 
-// ...existing code...
-
-static void	dup_and_exec_bonus(t_exec_args_bonus *args)
-{
-	dup_in_bonus(args->prev_fd);
-	if (args->i < args->data->cmd_count - 1)
-	{
-		dup_out_bonus(args->pipe_fd[1]);
-		close(args->pipe_fd[0]);
-		close(args->pipe_fd[1]);
-	}
-	else
-	{
-		dup_out_bonus(args->data->fd_out);
-	}
-	exec_cmd_bonus(args->data->cmd_paths[args->i],
-		args->data->cmds[args->i], args->envp);
-}
-
-static void	fork_and_run_bonus(t_exec_args_bonus *args)
+static void	exec_one_bonus(t_exec_args_bonus *args)
 {
 	pid_t	pid;
 
@@ -40,40 +21,55 @@ static void	fork_and_run_bonus(t_exec_args_bonus *args)
 		ft_error("Fork failed");
 	if (pid == 0)
 	{
-		dup_and_exec_bonus(args);
+		dup_in_bonus(args->fd_in);
+		if (args->idx < args->data->cmd_count - 1)
+		{
+			dup_out_bonus(args->pipe_fd[1]);
+			close(args->pipe_fd[0]);
+			close(args->pipe_fd[1]);
+		}
+		else
+			dup_out_bonus(args->data->fd_out);
+		exec_cmd_bonus(args->data->cmd_paths[args->idx],
+			args->data->cmds[args->idx], args->envp);
 	}
 }
 
-static void	loop_commands_bonus(t_pipex_bonus *data, char **envp)
+static void	exec_command_bonus(t_exec_args_bonus *args)
+{
+	if (args->idx < args->data->cmd_count - 1)
+	{
+		if (pipe(args->pipe_fd) == -1)
+			ft_error("Pipe creation failed.");
+	}
+	exec_one_bonus(args);
+	if (args->fd_in != args->data->fd_in)
+		close(args->fd_in);
+	if (args->idx < args->data->cmd_count - 1)
+	{
+		close(args->pipe_fd[1]);
+		args->fd_in = args->pipe_fd[0];
+	}
+}
+
+void	loop_commands_bonus(t_pipex_bonus *data, char **envp)
 {
 	int					pipe_fd[2];
-	int					prev_fd;
+	int					fd_in;
 	int					i;
 	t_exec_args_bonus	args;
 
-	prev_fd = data->fd_in;
+	fd_in = data->fd_in;
 	i = 0;
 	while (i < data->cmd_count)
 	{
-		if (i < data->cmd_count - 1)
-		{
-			if (pipe(pipe_fd) == -1)
-				ft_error("Pipe creation failed.");
-		}
 		args.data = data;
 		args.envp = envp;
-		args.i = i;
+		args.idx = i;
+		args.fd_in = fd_in;
 		args.pipe_fd = pipe_fd;
-		args.prev_fd = prev_fd;
-		fork_and_run_bonus(&args);
-		close_and_update_fd_bonus(&args);
+		exec_command_bonus(&args);
+		fd_in = args.fd_in;
 		i++;
 	}
-}
-
-void	execute_commands_bonus(t_pipex_bonus *data, char **envp)
-{
-	loop_commands_bonus(data, envp);
-	while (wait(NULL) > 0)
-		;
 }

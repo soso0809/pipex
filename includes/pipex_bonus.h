@@ -20,7 +20,6 @@
 # include <stdio.h>
 # include "pipex.h"
 
-
 /*
 * Structure bonus multi-pipes et here_doc
 ***	- fd_in, fd_out : fichiers d'entrée/sortie
@@ -39,15 +38,16 @@ typedef struct s_pipex_bonus
 	int		cmd_count;
 	char	***cmds;
 	char	**cmd_paths;
-} t_pipex_bonus;
+}	t_pipex_bonus;
 
-typedef struct s_exec_args_bonus {
-	t_pipex_bonus *data;
-	char **envp;
-	int i;
-	int *pipe_fd;
-	int prev_fd;
-} t_exec_args_bonus;
+typedef struct s_exec_args_bonus
+{
+	t_pipex_bonus	*data;
+	char			**envp;
+	int				idx;
+	int				fd_in;
+	int				*pipe_fd;
+}	t_exec_args_bonus;
 
 void	dup_in_bonus(int prev_fd);
 void	dup_out_bonus(int fd_out);
@@ -68,6 +68,7 @@ int		handle_here_doc(t_pipex_bonus *data);
 char	*get_here_doc_input(char *limiter);
 void	clean_here_doc(t_pipex_bonus *data);
 void	execute_commands_bonus(t_pipex_bonus *data, char **envp);
+void	loop_commands_bonus(t_pipex_bonus *data, char **envp);
 void	free_pipex_bonus(t_pipex_bonus *data);
 
 #endif

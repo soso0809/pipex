@@ -14,12 +14,16 @@
 
 void	close_and_update_fd_bonus(t_exec_args_bonus *args)
 {
-	if (args->prev_fd != args->data->fd_in)
-		close(args->prev_fd);
-	if (args->i < args->data->cmd_count - 1)
+	if (args->fd_in != args->data->fd_in)
+		close(args->fd_in);
+	if (args->idx < args->data->cmd_count - 1)
 	{
 		close(args->pipe_fd[1]);
-		args->prev_fd = args->pipe_fd[0];
+		args->fd_in = args->pipe_fd[0];
+	}
+	else
+	{
+		close(args->pipe_fd[0]);
 	}
 }
 

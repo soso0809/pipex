@@ -35,12 +35,12 @@
 /*
 * Purpose: Display a message to stderr and exit the program with a given status.
 * Function implemented: ft_error
-***   - File descriptor for input
-***   - File descriptor for output
-***   - Array of arguments for command 1
-***   - Full path to command 1 (e.g., "/bin/ls")
-***   - Array of arguments for command 2
-***   - Full path to command 2
+***	- File descriptor for input
+***	- File descriptor for output
+***	- Array of arguments for command 1
+***	- Full path to command 1 (e.g., "/bin/ls")
+***	- Array of arguments for command 2
+***	- Full path to command 2
 */
 /* ************************************************************************** */
 typedef struct s_pipex

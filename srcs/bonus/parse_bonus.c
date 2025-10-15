@@ -96,7 +96,7 @@ static void	open_files_normal(t_pipex_bonus *pipex, int argc, char **argv)
 
 static void	open_files_bonus(t_pipex_bonus *pipex, int argc, char **argv)
 {
-	if (argc == 6 && !ft_strncmp(argv[1], "here_doc", 8))
+	if (!ft_strncmp(argv[1], "here_doc", 8))
 		open_files_here_doc(pipex, argc, argv);
 	else
 		open_files_normal(pipex, argc, argv);

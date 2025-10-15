@@ -36,6 +36,7 @@ SRC_BONUS		= srcs/bonus/main_bonus.c \
 				  srcs/bonus/parse_utils_bonus.c \
 				  srcs/bonus/free_bonus.c \
 				  srcs/bonus/exec_utils_bonus.c \
+				  srcs/bonus/execute_commands_bonus.c \
 				  srcs/utils/errors.c \
 				  srcs/parsing/parse.c \
 				  srcs/parsing/parse_utils.c \
