@@ -12,6 +12,9 @@
 
 #include "pipex_bonus.h"
 
+static void	parse_cmd_arrays(t_pipex_bonus *pipex_bonus, char **argv,
+				char **envp, int start);
+
 /* ************************************************************************** */
 /*
 * Purpose: Parse commands from argv and resolve their paths for bonus pipex.
@@ -26,23 +29,43 @@
 ***	- Handle errors and free resources if commands are invalid or not found.
 */
 /* ************************************************************************** */
-void	parse_commands_bonus(t_pipex *pipex, char **argv, char **envp)
+void	parse_commands_bonus(t_pipex_bonus *pipex_bonus, char **argv,
+	char **envp)
 {
-	int	cmd_pos;
+	int	start;
 
-	cmd_pos = pipex->here_doc ? 3 : 2;
-	pipex->cmd1 = ft_split(argv[cmd_pos], ' ');
-	pipex->cmd2 = ft_split(argv[cmd_pos + 1], ' ');
-	if (!pipex->cmd1 || !pipex->cmd2 || !pipex->cmd1[0] || !pipex->cmd2[0])
+	start = 2;
+	if (pipex_bonus->here_doc)
+		start = 3;
+	pipex_bonus->cmd_count = 0;
+	while (argv[start + pipex_bonus->cmd_count]
+		&& argv[start + pipex_bonus->cmd_count + 1])
+		pipex_bonus->cmd_count++;
+	pipex_bonus->cmds = malloc(sizeof(char **) * pipex_bonus->cmd_count);
+	pipex_bonus->cmd_paths = malloc(sizeof(char *) * pipex_bonus->cmd_count);
+	if (!pipex_bonus->cmds || !pipex_bonus->cmd_paths)
+		ft_error("Error: malloc failed.");
+	parse_cmd_arrays(pipex_bonus, argv, envp, start);
+}
+
+static void	parse_cmd_arrays(t_pipex_bonus *pipex_bonus, char **argv,
+	char **envp, int start)
+{
+	int	idx;
+
+	idx = 0;
+	while (idx < pipex_bonus->cmd_count)
 	{
-		free_pipex(pipex);
-		ft_error("Error: invalid command.");
-	}
-	pipex->cmd1_path = get_cmd_path(pipex->cmd1[0], envp);
-	pipex->cmd2_path = get_cmd_path(pipex->cmd2[0], envp);
-	if (!pipex->cmd1_path || !pipex->cmd2_path)
-	{
-		free_pipex(pipex);
-		ft_error("Error: command not found.");
+		pipex_bonus->cmds[idx] = ft_split(argv[start + idx], ' ');
+		pipex_bonus->cmd_paths[idx] = get_cmd_path(pipex_bonus->cmds[idx][0],
+				envp);
+		if (!pipex_bonus->cmds[idx]
+			|| !pipex_bonus->cmds[idx][0]
+			|| !pipex_bonus->cmd_paths[idx])
+		{
+			free_pipex_bonus(pipex_bonus);
+			ft_error("Error: invalid command.");
+		}
+		idx++;
 	}
 }

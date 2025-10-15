@@ -36,22 +36,24 @@
 ***	- If argc is not 5 or 6, free resources and print usage error.
 */
 /* ************************************************************************** */
-static void	check_args_bonus(t_pipex *pipex, int argc, char **envp)
+static void	check_args_bonus(t_pipex_bonus *pipex, int argc, char **argv,
+		char **envp)
 {
 	if (argc < 5)
 	{
-		free_pipex(pipex);
-		ft_error("Usage: ./pipex_bonus [here_doc LIMITER] cmd1 cmd2 outfile");
+		free_pipex_bonus(pipex);
+		ft_error("Usage: ./pipex_bonus infile cmd1 cmd2 [cmd3 ...] outfile");
 	}
 	if (!envp)
 	{
-		free_pipex(pipex);
-		ft_error("Error: empty environment.");
+		free_pipex_bonus(pipex);
+		ft_error("empty environment.");
 	}
-	if (argc != 5 && argc != 6)
+	if ((argc >= 5 && !ft_strncmp(argv[1], "here_doc", 8) && argc < 6)
+		|| (argc < 5))
 	{
-		free_pipex(pipex);
-		ft_error("Usage: ./pipex_bonus [here_doc LIMITER] cmd1 cmd2 outfile");
+		free_pipex_bonus(pipex);
+		ft_error("Usage: ./pipex_bonus [here_doc LIMITER] cmd1 cmd2...outfile");
 	}
 }
 
@@ -69,33 +71,39 @@ static void	check_args_bonus(t_pipex *pipex, int argc, char **envp)
 ***	- On failure to open files, free resources and print error.
 */
 /* ************************************************************************** */
-static void	open_files_bonus(t_pipex *pipex, int argc, char **argv)
+static void	open_files_here_doc(t_pipex_bonus *pipex, int argc, char **argv)
+{
+	pipex->here_doc = 1;
+	pipex->limiter = argv[2];
+	if (handle_here_doc(pipex) < 0)
+	{
+		free_pipex_bonus(pipex);
+		ft_error("here_doc failed.");
+	}
+	pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+}
+
+static void	open_files_normal(t_pipex_bonus *pipex, int argc, char **argv)
+{
+	pipex->fd_in = open(argv[1], O_RDONLY);
+	if (pipex->fd_in < 0)
+	{
+		free_pipex_bonus(pipex);
+		ft_error("cannot access input file.");
+	}
+	pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+}
+
+static void	open_files_bonus(t_pipex_bonus *pipex, int argc, char **argv)
 {
 	if (argc == 6 && !ft_strncmp(argv[1], "here_doc", 8))
-	{
-		pipex->here_doc = 1;
-		pipex->limiter = argv[2];
-		if (handle_here_doc(pipex) < 0)
-		{
-			free_pipex(pipex);
-			ft_error("Error: here_doc failed.");
-		}
-		pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-	}
+		open_files_here_doc(pipex, argc, argv);
 	else
-	{
-		pipex->fd_in = open(argv[1], O_RDONLY);
-		if (pipex->fd_in < 0)
-		{
-			free_pipex(pipex);
-			ft_error("Error: cannot access input file.");
-		}
-		pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
+		open_files_normal(pipex, argc, argv);
 	if (pipex->fd_out < 0)
 	{
-		free_pipex(pipex);
-		ft_error("Error: cannot access output file.");
+		free_pipex_bonus(pipex);
+		ft_error("cannot access output file.");
 	}
 }
 
@@ -113,9 +121,10 @@ static void	open_files_bonus(t_pipex *pipex, int argc, char **argv)
 ***	- Parse commands from arguments.
 */
 /* ************************************************************************** */
-void	parse_input_bonus(t_pipex *pipex, int argc, char **argv, char **envp)
+void	parse_input_bonus(t_pipex_bonus *pipex, int argc, char **argv,
+		char **envp)
 {
-	check_args_bonus(pipex, argc, envp);
+	check_args_bonus(pipex, argc, argv, envp);
 	open_files_bonus(pipex, argc, argv);
 	parse_commands_bonus(pipex, argv, envp);
 }

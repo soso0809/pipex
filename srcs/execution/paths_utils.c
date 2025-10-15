@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: auto-generated                                +#+  +:+      
-	+#+        */
+/*   By: smetz <smetz@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 07:30:00 by helper            #+#    #+#             */
+/*   Created: 2025-10-15 08:01:01 by smetz             #+#    #+#             */
+/*   Updated: 2025-10-15 08:01:01 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /*
 * Functions implemented:
 ***	- *get_path_value: retrieve the value of the PATH environment variable.
-***	- **split_path_value: split the PATH environment variable into an array of 
+***	- **split_path_value: split the PATH environment variable into an array of
 	directories.
 ***	- *direct_cmd_check: check if the command is a direct path and executable.
 */

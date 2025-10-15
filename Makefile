@@ -21,7 +21,6 @@ INCLUDES		= -Iincludes -I$(LIBFT_DIR) -I$(LIBFT_DIR)/ft_printf
 
 # --- Sources (à adapter selon ton organisation) ---
 SRC_MANDATORY	= srcs/main.c \
-				  srcs/utils/ft_utils.c \
 				  srcs/utils/errors.c \
 				  srcs/parsing/parse.c \
 				  srcs/parsing/parse_utils.c \
@@ -35,11 +34,12 @@ SRC_BONUS		= srcs/bonus/main_bonus.c \
 				  srcs/bonus/here_doc.c \
 				  srcs/bonus/parse_bonus.c \
 				  srcs/bonus/parse_utils_bonus.c \
-				  srcs/utils/ft_utils.c \
+				  srcs/bonus/free_bonus.c \
+				  srcs/bonus/exec_utils_bonus.c \
 				  srcs/utils/errors.c \
 				  srcs/parsing/parse.c \
 				  srcs/parsing/parse_utils.c \
-				  srcs/execution/exec.c \
+				  srcs/bonus/exec_bonus.c \
 				  srcs/execution/paths.c \
 				  srcs/execution/paths_utils.c
 

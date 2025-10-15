@@ -11,16 +11,18 @@
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include "get_next_line/get_next_line.h"
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipex	*data;
+	t_pipex_bonus	*data;
 
-	data = init_pipex();
+	data = malloc(sizeof(t_pipex_bonus));
 	if (!data)
 		return (1);
 	parse_input_bonus(data, argc, argv, envp);
-	execute_commands(data, envp);
-	free_pipex(data);
+	execute_commands_bonus(data, envp);
+	free(data);
+	get_next_line_free_all();
 	return (0);
 }

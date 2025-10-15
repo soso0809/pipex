@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipex *data;
+	t_pipex	*data;
 
 	data = init_pipex();
 	if (!data)

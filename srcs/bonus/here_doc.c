@@ -10,7 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
 #include "pipex_bonus.h"
+
+/* Macros locales pour here_doc */
+#ifndef HERE_DOC_TEMP_FILE
+# define HERE_DOC_TEMP_FILE ".here_doc_tmp"
+#endif
+#ifndef HERE_DOC_PERMS
+# define HERE_DOC_PERMS 0644
+#endif
 
 /* ************************************************************************** */
 /*
@@ -58,7 +67,7 @@ int	is_here_doc_mode(char **argv)
 ***	- Handle errors by exiting with an error message.
 */
 /* ************************************************************************** */
-int	handle_here_doc(t_pipex *data)
+int	handle_here_doc(t_pipex_bonus *data)
 {
 	int		tmp;
 	char	*content;
@@ -66,7 +75,7 @@ int	handle_here_doc(t_pipex *data)
 	if (!data)
 		return (-1);
 	tmp = open(HERE_DOC_TEMP_FILE, O_WRONLY | O_CREAT
-		| O_TRUNC, HERE_DOC_PERMS);
+			| O_TRUNC, HERE_DOC_PERMS);
 	if (tmp == -1)
 		return (-1);
 	content = get_here_doc_input(data->limiter);
@@ -94,6 +103,7 @@ int	handle_here_doc(t_pipex *data)
 ***	- Return the concatenated string.
 */
 /* ************************************************************************** */
+
 char	*get_here_doc_input(char *limiter)
 {
 	char	*line;
@@ -105,7 +115,7 @@ char	*get_here_doc_input(char *limiter)
 		return (NULL);
 	while (1)
 	{
-		write(1, "heredoc> ", 9);
+		ft_putstr_fd("here_doc> ", 1);
 		line = get_next_line(0);
 		if (!line || !ft_strncmp(line, limiter, ft_strlen(limiter)))
 			break ;
@@ -128,7 +138,7 @@ char	*get_here_doc_input(char *limiter)
 ***	- If data and data->here_doc are set, delete the temporary file.
 */
 /* ************************************************************************** */
-void	clean_here_doc(t_pipex *data)
+void	clean_here_doc(t_pipex_bonus *data)
 {
 	if (data && data->here_doc)
 		unlink(HERE_DOC_TEMP_FILE);

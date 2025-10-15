@@ -12,7 +12,6 @@
 
 #include "pipex.h"
 
-
 /* ************************************************************************** */
 /*
 * Purpose: main functions for parsing
@@ -46,8 +45,6 @@ t_pipex	*init_pipex(void)
 	pipex->cmd1_path = NULL;
 	pipex->cmd2 = NULL;
 	pipex->cmd2_path = NULL;
-	pipex->here_doc = 0;
-	pipex->limiter = NULL;
 	return (pipex);
 }
 

@@ -39,6 +39,11 @@
 char	*get_next_line(int fd);
 
 /*
+* Free all internal static buffers used by get_next_line (all fds)
+*/
+void	get_next_line_free_all(void);
+
+/*
 * Helper functions for internal use
 * read_and_accumulate: reads from fd and accumulates in buffer until newline/EOF
 * extract_line_and_update_rest: extracts one line and updates static buffer

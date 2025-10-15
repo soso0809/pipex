@@ -14,14 +14,14 @@
 # define PIPEX_H
 
 /* --- Includes --- */
-# include "libft.h"                  // Ta libft (libft/libft.h est dans -Ilibft)
-# include <errno.h>                   // errno
-# include <fcntl.h>                   // open
-# include <stdio.h>                   // perror (pour les erreurs)
-# include <stdlib.h>                  // malloc, free, exit
-# include <string.h>                  // strerror
-# include <sys/wait.h>                // wait, waitpid
-# include <unistd.h>                  // read, write, close, pipe, fork, execve, dup2
+# include "libft.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 /* --- Macros --- */
 # define INFILE 0
@@ -33,17 +33,14 @@
 /* --- Structures --- */
 /* ************************************************************************** */
 /*
-* Purpose:  display a message to stderr and exit the program with a given
-	status.
+* Purpose: Display a message to stderr and exit the program with a given status.
 * Function implemented: ft_error
-***	- File descriptor for input
-***	- File descriptor for output
-***	- Array of arguments for command 1
-***	- Full path to command 1 (e.g.: "/bin/ls")
-***	- Array of arguments for command 2
-***	- Full path to command 2
-***	- 1 if here_doc mode is enabled (bonus), 0 otherwise
-***	- Delimiter for here_doc (e.g.: "EOF")
+***   - File descriptor for input
+***   - File descriptor for output
+***   - Array of arguments for command 1
+***   - Full path to command 1 (e.g., "/bin/ls")
+***   - Array of arguments for command 2
+***   - Full path to command 2
 */
 /* ************************************************************************** */
 typedef struct s_pipex
@@ -54,37 +51,35 @@ typedef struct s_pipex
 	char	*cmd1_path;
 	char	**cmd2;
 	char	*cmd2_path;
-	int		here_doc;
-	char	*limiter;
-}			t_pipex;
+	/* champs bonus retirés pour la version mandatory */
+}	t_pipex;
 
 /* ************************************************************************** */
 /* MANDATORY FUNCTION DECLARATIONS */
 /* ************************************************************************** */
 
 /* execution/exec.c */
-void		execute_commands(t_pipex *data, char **envp);
-void		child_process(t_pipex *data, char **envp, int *pipe_fd, int is_cmd1);
+void	execute_commands(t_pipex *data, char **envp);
+void	child_process(t_pipex *data, char **envp, int *pipe_fd, int is_cmd1);
 
 /* paths.c */
-char		*get_cmd_path(char *cmd, char **envp);
-
+char	*get_cmd_path(char *cmd, char **envp);
 
 /* parsing/parse.c */
-t_pipex		*init_pipex(void);
-void		free_pipex(t_pipex *data);
-void		parse_input(t_pipex *data, int argc, char **argv, char **envp);
+t_pipex	*init_pipex(void);
+void	free_pipex(t_pipex *data);
+void	parse_input(t_pipex *data, int argc, char **argv, char **envp);
 
 /* parsing/parse_utils.c */
-void		free_str_array(char **arr);
-void		open_files(t_pipex *data, char **argv);
-void		parse_commands(t_pipex *data, char **argv, char **envp);
+void	free_str_array(char **arr);
+void	open_files(t_pipex *data, char **argv);
+void	parse_commands(t_pipex *data, char **argv, char **envp);
 
 /* utils/errors.c */
-void		exit_error(char *msg);
-void		exit_error_cmd(char *cmd, char *msg);
+void	exit_error(char *msg);
+void	exit_error_cmd(char *cmd, char *msg);
 
 /* utils/ft_utils.c */
-char		*ft_strjoin_char(char *s1, char c);
+char	*ft_strjoin_char(char *s1, char c);
 
 #endif

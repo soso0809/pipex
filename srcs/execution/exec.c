@@ -15,7 +15,7 @@
 /* ************************************************************************** */
 /*
 * Purpose: main functions for executing
-* Function implemented: 
+* Function implemented:
 ***	- execute_command: execute two commands connected by a pipe.
 ***	- child_process: execute a child process for one side of the pipe.
 */
@@ -44,18 +44,18 @@ void	execute_commands(t_pipex *data, char **envp)
 		ft_error("Pipe creation failed.");
 	pid1 = fork();
 	if (pid1 < 0)
-		ft_error("Fork pid1 failed");
+		ft_error("Fork failed");
 	if (pid1 == 0)
 		child_process(data, envp, pipe_fd, 1);
 	pid2 = fork();
 	if (pid2 < 0)
-		ft_error("Fork pid2 failed");
+		ft_error("Fork failed");
 	if (pid2 == 0)
 		child_process(data, envp, pipe_fd, 0);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	while (wait(NULL) > 0)
+		;
 }
 
 /* ************************************************************************** */
@@ -65,10 +65,11 @@ void	execute_commands(t_pipex *data, char **envp)
 * - data: pointer to pipex structure containing command info.
 * - envp: environment variables array.
 * - pipe_fd: file descriptors for the pipe.
-* - is_cmd1: flag to indicate which command to execute (1 for first, 0 for second).
+* - is_cmd1: flag to indicate which command to execute (1 for first, 0 for
+	second).
 ***	- Redirect input/output as needed using dup2.
 ***	- Close unused pipe file descriptors.
-***	- Execute the appropriate command with execve. 
+***	- Execute the appropriate command with execve.
 * Return: void (exits on error).
  */
 /* ************************************************************************** */

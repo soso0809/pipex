@@ -43,7 +43,6 @@ void	free_str_array(char **arr)
 	free(arr);
 }
 
-
 /* ************************************************************************** */
 /*
 * Purpose: open input and output files for pipex.
