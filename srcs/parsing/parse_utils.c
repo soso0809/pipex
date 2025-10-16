@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 13:46:12 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/07 16:35:51 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 06:46:49 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ void	parse_commands(t_pipex *pipex, char **argv, char **envp)
 	if (!pipex->cmd1_path || !pipex->cmd2_path)
 	{
 		free_pipex(pipex);
-		ft_error("Error: command not found.");
+		ft_error("command not found.");
 	}
 }

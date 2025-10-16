@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 14:35:12 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/12 14:35:12 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 10:14:25 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,51 @@
 /*
 * Purpose: helper functions for parsing
 * Function implemented:
-***	- check_args_bonus: check validity of arguments and environment for bonus
+***	- *init_pipex_bonus: allocate and initialize a t_pipex_bonus structure.
+***	- check_args_bonus: check validity of arguments and environment for bonus 
 	pipex.
-***	- open_files_bonus: open input and output files for bonus pipex.
 ***	- parse_input_bonus: parse input arguments and environment for bonus pipex.
 */
 /* ************************************************************************** */
 
 /* ************************************************************************** */
 /*
-* Purpose: check validity of arguments and environment for bonus pipex.
-* Function implemented: check_args_bonus
-***	- pipex: pointer to main pipex struct.
-***	- argc: argument count.
-***	- envp: environment variables.
-* Behavior:
-***	- If argc < 5, free resources and print usage error.
-***	- If envp is NULL, free resources and print environment error.
-***	- If argc is not 5 or 6, free resources and print usage error.
-*/
+ * Purpose: allocate and initialize a t_pipex_bonus structure.
+ * Function implemented: init_pipex_bonus
+ *** - Allocate memory for t_pipex_bonus.
+ *** - Initialise tous les membres à des valeurs par défaut.
+ *** - Retourne un pointeur sur la structure initialisée.
+ *** - En cas d'échec, appelle ft_error.
+ */
+/* ************************************************************************** */
+t_pipex_bonus	*init_pipex_bonus(void)
+{
+	t_pipex_bonus	*pipex;
+
+	pipex = malloc(sizeof(t_pipex_bonus));
+	if (!pipex)
+		ft_error("Error allocation pipex_bonus.");
+	pipex->fd_in = -1;
+	pipex->fd_out = -1;
+	pipex->here_doc = 0;
+	pipex->limiter = NULL;
+	pipex->cmds = NULL;
+	pipex->cmd_paths = NULL;
+	return (pipex);
+}
+
+/* ************************************************************************** */
+/*
+ * Purpose: check validity of arguments and environment for bonus pipex.
+ * Function implemented: check_args_bonus
+ ***	- pipex: pointer to main pipex struct.
+ ***	- argc: argument count.
+ ***	- envp: environment variables.
+ * Behavior:
+ ***	- If argc < 5, free resources and print usage error.
+ ***	- If envp is NULL, free resources and print environment error.
+ ***	- If argc is not 5 or 6, free resources and print usage error.
+ */
 /* ************************************************************************** */
 static void	check_args_bonus(t_pipex_bonus *pipex, int argc, char **argv,
 		char **envp)
@@ -59,67 +85,17 @@ static void	check_args_bonus(t_pipex_bonus *pipex, int argc, char **argv,
 
 /* ************************************************************************** */
 /*
-* Purpose: open input and output files for bonus pipex.
-* Function implemented: open_files_bonus
-***	- pipex: pointer to main pipex struct.
-***	- argc: argument count.
-***	- argv: argument vector.
-* Behavior:
-***	- If here_doc mode, set limiter and open output file in append mode.
-***	- Otherwise, open input file for reading and output file for writing
-	(truncate).
-***	- On failure to open files, free resources and print error.
-*/
-/* ************************************************************************** */
-static void	open_files_here_doc(t_pipex_bonus *pipex, int argc, char **argv)
-{
-	pipex->here_doc = 1;
-	pipex->limiter = argv[2];
-	if (handle_here_doc(pipex) < 0)
-	{
-		free_pipex_bonus(pipex);
-		ft_error("here_doc failed.");
-	}
-	pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-}
-
-static void	open_files_normal(t_pipex_bonus *pipex, int argc, char **argv)
-{
-	pipex->fd_in = open(argv[1], O_RDONLY);
-	if (pipex->fd_in < 0)
-	{
-		free_pipex_bonus(pipex);
-		ft_error("cannot access input file.");
-	}
-	pipex->fd_out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-}
-
-static void	open_files_bonus(t_pipex_bonus *pipex, int argc, char **argv)
-{
-	if (!ft_strncmp(argv[1], "here_doc", 8))
-		open_files_here_doc(pipex, argc, argv);
-	else
-		open_files_normal(pipex, argc, argv);
-	if (pipex->fd_out < 0)
-	{
-		free_pipex_bonus(pipex);
-		ft_error("cannot access output file.");
-	}
-}
-
-/* ************************************************************************** */
-/*
-* Purpose: parse input arguments and environment for bonus pipex.
-* Function implemented: parse_input_bonus
-***	- pipex: pointer to main pipex struct.
-***	- argc: argument count.
-***	- argv: argument vector.
-***	- envp: environment variables.
-* Behavior:
-***	- Check validity of arguments and environment.
-***	- Open input and output files as needed.
-***	- Parse commands from arguments.
-*/
+ * Purpose: parse input arguments and environment for bonus pipex.
+ * Function implemented: parse_input_bonus
+ ***	- pipex: pointer to main pipex struct.
+ ***	- argc: argument count.
+ ***	- argv: argument vector.
+ ***	- envp: environment variables.
+ * Behavior:
+ ***	- Check validity of arguments and environment.
+ ***	- Open input and output files as needed.
+ ***	- Parse commands from arguments.
+ */
 /* ************************************************************************** */
 void	parse_input_bonus(t_pipex_bonus *pipex, int argc, char **argv,
 		char **envp)

@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/10/10 07:31:21 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 10:25:33 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,26 @@ typedef struct s_pipex
 void	execute_commands(t_pipex *data, char **envp);
 void	child_process(t_pipex *data, char **envp, int *pipe_fd, int is_cmd1);
 
+/* paths_utils*/
+char	*get_path_value(char **envp);
+char	**split_path_value(char **envp);
+char	*direct_cmd_check(char *cmd);
+
 /* paths.c */
 char	*get_cmd_path(char *cmd, char **envp);
-
-/* parsing/parse.c */
-t_pipex	*init_pipex(void);
-void	free_pipex(t_pipex *data);
-void	parse_input(t_pipex *data, int argc, char **argv, char **envp);
 
 /* parsing/parse_utils.c */
 void	free_str_array(char **arr);
 void	open_files(t_pipex *data, char **argv);
 void	parse_commands(t_pipex *data, char **argv, char **envp);
 
+/* parsing/parse.c */
+t_pipex	*init_pipex(void);
+void	free_pipex(t_pipex *data);
+void	parse_input(t_pipex *data, int argc, char **argv, char **envp);
+
 /* utils/errors.c */
 void	exit_error(char *msg);
 void	exit_error_cmd(char *cmd, char *msg);
-
-/* utils/ft_utils.c */
-char	*ft_strjoin_char(char *s1, char c);
 
 #endif

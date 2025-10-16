@@ -42,7 +42,8 @@ SRC_BONUS		= srcs/bonus/main_bonus.c \
 				  srcs/parsing/parse_utils.c \
 				  srcs/bonus/exec_bonus.c \
 				  srcs/execution/paths.c \
-				  srcs/execution/paths_utils.c
+				  srcs/execution/paths_utils.c \
+				  srcs/bonus/open_files_bonus.c
 
 OBJECTS_BONUS	= $(SRC_BONUS:.c=.o)
 

@@ -6,12 +6,12 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:57:29 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/07 08:20:46 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 08:31:12 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
 #include "paths_internal.h"
+#include "pipex.h"
 
 /* ************************************************************************** */
 /*
@@ -27,10 +27,10 @@
 
 /* ************************************************************************** */
 /*
-* Purpose:  free a dynamically allocated array of strings.
-* Function implemented: free_array
-***	- array: the array of strings to free.
-*/
+ * Purpose:  free a dynamically allocated array of strings.
+ * Function implemented: free_array
+ ***	- array: the array of strings to free.
+ */
 /* ************************************************************************** */
 static void	free_array(char **array)
 {
@@ -47,12 +47,12 @@ static void	free_array(char **array)
 
 /* ************************************************************************** */
 /*
-* Purpose: join a directory and command to form a full path.
-* Function implemented: make_full_path
-***	- dir: directory string.
-***	- cmd: command string.
-* Return: newly allocated string with full path, or NULL on failure.
-*/
+ * Purpose: join a directory and command to form a full path.
+ * Function implemented: make_full_path
+ ***	- dir: directory string.
+ ***	- cmd: command string.
+ * Return: newly allocated string with full path, or NULL on failure.
+ */
 /* ************************************************************************** */
 static char	*make_full_path(const char *dir, const char *cmd)
 {
@@ -71,12 +71,12 @@ static char	*make_full_path(const char *dir, const char *cmd)
 
 /* ************************************************************************** */
 /*
-* Purpose: test each directory in the PATH for the existence of the command.
-* Function implemented: test_paths
-***	- paths: array of directory strings from PATH.
-***	- cmd: command to search for.
-* Return: full path to the command if found, otherwise NULL.
-*/
+ * Purpose: test each directory in the PATH for the existence of the command.
+ * Function implemented: test_paths
+ ***	- paths: array of directory strings from PATH.
+ ***	- cmd: command to search for.
+ * Return: full path to the command if found, otherwise NULL.
+ */
 /* ************************************************************************** */
 static char	*test_paths(char **paths, char *cmd)
 {
@@ -108,25 +108,24 @@ static char	*test_paths(char **paths, char *cmd)
 
 /* ************************************************************************** */
 /*
-* Purpose: find the full path of a command using the PATH environment variable.
-* Function implemented: get_cmd_path
-***	- cmd: the command to search for.
-***	- envp: the environment variables array.
-* Return: full path to the command if found, otherwise NULL.
-*/
+ * Purpose: find the full path of a command using the PATH environment variable.
+ * Function implemented: get_cmd_path
+ ***	- cmd: the command to search for.
+ ***	- envp: the environment variables array.
+ * Return: full path to the command if found, otherwise NULL.
+ */
 /* ************************************************************************** */
 char	*get_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;
-	char	*direct;
+	char	*full_path;
 
+	full_path = NULL;
 	if (!cmd || !envp)
 		return (NULL);
-	direct = direct_cmd_check(cmd);
-	if (direct || ft_strchr(cmd, '/'))
-		return (direct);
 	paths = split_path_value(envp);
 	if (!paths)
 		return (NULL);
-	return (test_paths(paths, cmd));
+	full_path = test_paths(paths, cmd);
+	return (full_path);
 }
