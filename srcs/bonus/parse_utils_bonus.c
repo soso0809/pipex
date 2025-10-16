@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 15:45:12 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/16 10:19:19 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 10:42:09 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 /*
 * Purpose: helper functions for parsing
 * Function implemented:
-***	- parse_commands_bonus: parse commands and initialize command arrays in 
+***	- parse_commands_bonus: parse commands and initialize command arrays in
 	t_pipex_bonus.
-***	- free_cmds_paths: free allocated memory for command arrays and paths in 
+***	- free_cmds_paths: free allocated memory for command arrays and paths in
 	t_pipex_bonus.
 ***	- parse_cmd_arrays: fill command and path arrays in t_pipex_bonus.
 */
@@ -71,12 +71,15 @@ void	parse_commands_bonus(t_pipex_bonus *pipex_bonus, char **argv,
 /* ************************************************************************** */
 static void	free_cmds_paths(t_pipex_bonus *pipex_bonus, int last)
 {
-	int j = 0;
+	int	j;
+	int	k;
+
+	j = 0;
 	while (j <= last)
 	{
 		if (pipex_bonus->cmds[j])
 		{
-			int k = 0;
+			k = 0;
 			while (pipex_bonus->cmds[j][k])
 				free(pipex_bonus->cmds[j][k++]);
 			free(pipex_bonus->cmds[j]);

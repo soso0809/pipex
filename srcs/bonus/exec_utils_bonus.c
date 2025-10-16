@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 07:50:01 by smetz             #+#    #+#             */
-/*   Updated: 2025/10/16 09:44:36 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 10:41:47 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
 	the read end of the previous pipe).
 * - args->pipe_fd: pipe fds connecting this command to the next.
 * - args->idx: index of the current command (0-based).
-* - args->data->fd_in: original input file descriptor (should not be closed here).
+* - args->data->fd_in: original input file descriptor (should not be closed 
+	here).
 * - args->data->cmd_count: total number of commands in the pipeline.
 * Behavior:
 ***	- Close args->fd_in if it is not the original infile fd.

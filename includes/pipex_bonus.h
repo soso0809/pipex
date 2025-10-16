@@ -6,7 +6,7 @@
 /*   By: smetz <smetz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/10/16 10:38:27 by smetz            ###   ########.fr       */
+/*   Updated: 2025/10/16 10:42:20 by smetz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
 
 /* Here_doc configuration */
 # define HERE_DOC_TEMP_FILE ".here_doc_tmp"
@@ -67,7 +66,7 @@ void				dup_out_bonus(int fd_out);
 void				exec_cmd_bonus(char *cmd_path, char **cmd, char **envp);
 
 /* exec_commands_bonus.c */
-void	execute_commands_bonus(t_pipex_bonus *data, char **envp);
+void				execute_commands_bonus(t_pipex_bonus *data, char **envp);
 
 /* free_bonus.c */
 void				free_pipex_bonus(t_pipex_bonus *data);
@@ -86,7 +85,7 @@ void				open_files_bonus(t_pipex_bonus *pipex, int argc,
 t_pipex_bonus		*init_pipex_bonus(void);
 void				parse_input_bonus(t_pipex_bonus *pipex, int argc,
 						char **argv, char **envp);
-						
+
 /* parse_utils_bonus.c */
 void				parse_commands_bonus(t_pipex_bonus *pipex, char **argv,
 						char **envp);
